@@ -223,7 +223,18 @@
               <button onClick="{{ lang.onDel }}" title="Delete row" style="display:{{ delDisp }};align-items:center;flex:0 0 auto;border:none;background:none;color:#C4D2E0;cursor:pointer;font-size:11px;">✕</button>
             </div>
             <sc-if value="{{ canEdit }}" hint-placeholder-val="{{ true }}">
-              <input value="{{ lang.url }}" onChange="{{ lang.onUrl }}" placeholder="Paste link…" style="width:100%;margin-top:6px;border:1px solid #EEF3F8;border-radius:6px;padding:5px 8px;font-size:11.5px;color:#3A4F66;background:#FAFCFE;box-sizing:border-box;"/>
+              <div style="display:flex;gap:8px;margin-top:7px;">
+                <input value="{{ lang.url }}" onChange="{{ lang.onUrl }}" placeholder="Paste link…" style="flex:1;border:1px solid #EEF3F8;border-radius:6px;padding:5px 8px;font-size:11.5px;color:#3A4F66;background:#FAFCFE;box-sizing:border-box;"/>
+                <input value="{{ lang.feedback }}" onChange="{{ lang.onFeedback }}" placeholder="💬 Add feedback…" style="flex:1;border:1px solid #EEF3F8;border-radius:6px;padding:5px 8px;font-size:11.5px;color:#3A4F66;background:#FAFCFE;box-sizing:border-box;"/>
+              </div>
+            </sc-if>
+            <sc-if value="{{ !canEdit }}" hint-placeholder-val="{{ false }}">
+              <sc-if value="{{ lang.feedback }}" hint-placeholder-val="{{ true }}">
+                <div style="margin-top:7px;background:#F0F9FF;border:1px solid #BAE6FD;border-radius:6px;padding:6px 9px;font-size:11.5px;color:#0369A1;">💬 {{ lang.feedback }}</div>
+              </sc-if>
+              <sc-if value="{{ !lang.feedback }}" hint-placeholder-val="{{ false }}">
+                <div style="margin-top:7px;font-size:11px;color:#C4D2E0;font-style:italic;">No feedback yet.</div>
+              </sc-if>
             </sc-if>
           </div>
         </sc-for>
@@ -308,8 +319,7 @@ class Component extends DCLogic {
   static CUT_TYPES = [
     { id:'master', label:'16:9 ( 20 seconds )' },
     { id:'10s',    label:'16:9 ( 10 Seconds )' },
-    { id:'916_20', label:'9:16 ( 20 seconds )' },
-    { id:'916_10', label:'9:16 ( 10 Seconds )' }
+    { id:'916_20', label:'9:16 ( 20 seconds )' }
   ];
   static ADMIN_KEY = 'paytm_admin_unlocked_v1';
   static STATUS_ORDER = ['todo','progress','review','approved','delivered','blocked'];
@@ -705,10 +715,14 @@ class Component extends DCLogic {
         const g = GROUP[d.group] || GROUP.Digital;
         const lk = selFilm.id+'|'+selectedCutType+'|'+d.id;
         const url = (s.deliverableLinks||{})[lk] || '';
+        const fk = selFilm.id+'|'+selectedCutType+'|fb|'+d.id;
+        const feedback = (s.deliverableLinks||{})[fk] || '';
         return { id:d.id, label:d.label, groupShort:g.short, groupBg:g.bg, groupFg:g.fg,
           url, href:this.normUrl(url), openPe:url.trim()?'auto':'none', openOpacity:url.trim()?'1':'0.4',
+          feedback,
           onLabel:e => this.updateDeliverable(d.id,e.target.value),
           onUrl:e => this.updateDeliverableLink(selFilm.id,selectedCutType,d.id,e.target.value),
+          onFeedback:e => this.updateDeliverableLink(selFilm.id,selectedCutType,'fb|'+d.id,e.target.value),
           onDel:() => this.deleteDeliverable(d.id) };
       })
     } : null;
