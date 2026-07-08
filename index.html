@@ -259,7 +259,7 @@
                 <textarea value="{{ lang.draftFeedback }}" onChange="{{ lang.onDraftFeedback }}" placeholder="Leave a comment or feedback…" rows="2" style="flex:1;border:1px solid #EEF3F8;border-radius:6px;padding:6px 8px;font-size:11.5px;color:#3A4F66;background:#FAFCFE;box-sizing:border-box;resize:vertical;font-family:inherit;line-height:1.45;min-width:0;"></textarea>
                 <div style="display:flex;flex-direction:column;align-items:center;gap:4px;padding-top:2px;">
                   <sc-if value="{{ !lang.feedbackSent }}" hint-placeholder-val="{{ true }}">
-                    <button onClick="{{ lang.onSendFeedback }}" style="height:32px;padding:0 13px;font-size:12px;font-weight:700;border:none;border-radius:7px;background:#002970;color:#fff;cursor:pointer;white-space:nowrap;font-family:inherit;">Send</button>
+                    <button onClick="{{ lang.onSendFeedback }}" style="height:32px;padding:0 13px;font-size:12px;font-weight:700;border:none;border-radius:7px;background:#002970;color:#fff;cursor:pointer;white-space:nowrap;font-family:inherit;">Submit</button>
                   </sc-if>
                   <sc-if value="{{ lang.feedbackSent }}" hint-placeholder-val="{{ false }}">
                     <span style="font-size:12px;font-weight:700;color:#0AA66E;white-space:nowrap;">Sent ✓</span>
